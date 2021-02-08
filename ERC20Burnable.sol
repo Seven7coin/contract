@@ -3,14 +3,16 @@
 pragma solidity >=0.6.0 <0.8.0;
 
 import "./Context.sol";
-import "./SevenCoin.sol";
+import "./ERC20.sol";
 
 /**
  * @dev Extension of {ERC20} that allows token holders to destroy both their own
  * tokens and those that they have an allowance for, in a way that can be
  * recognized off-chain (via event analysis).
  */
-abstract contract ERC20Burnable is Context, ERC20 {
+ 
+ 
+ abstract contract ERC20Burnable is Context, ERC20 {
     using SafeMath for uint256;
 
     /**

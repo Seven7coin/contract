@@ -5,7 +5,6 @@ pragma solidity >=0.6.0 <0.8.0;
 import "./Context.sol";
 import "./IERC20.sol";
 import "./SafeMath.sol";
-import "./Owner.sol";
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -31,7 +30,7 @@ import "./Owner.sol";
  * functions have been added to mitigate the well-known issues around setting
  * allowances. See {IERC20-approve}.
  */
-contract ERC20 is Context, IERC20, Ownable {
+contract ERC20 is Context, IERC20 {
     using SafeMath for uint256;
 
     mapping (address => uint256) private _balances;
@@ -53,17 +52,16 @@ contract ERC20 is Context, IERC20, Ownable {
      * All three of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor (string memory name_, string memory symbol_) {
+    constructor  (string memory name_, string memory symbol_,uint8 decimals_)  {
         _name = name_;
         _symbol = symbol_;
-        _decimals = 18;
-         _mint(_msgSender(), 200000000 * 1e17);
+        _decimals = decimals_;
     }
 
     /**
      * @dev Returns the name of the token.
      */
-    function name() public view returns (string memory) {
+    function name() public view virtual returns (string memory) {
         return _name;
     }
 
@@ -71,7 +69,7 @@ contract ERC20 is Context, IERC20, Ownable {
      * @dev Returns the symbol of the token, usually a shorter version of the
      * name.
      */
-    function symbol() public view returns (string memory) {
+    function symbol() public view virtual returns (string memory) {
         return _symbol;
     }
 
@@ -88,21 +86,21 @@ contract ERC20 is Context, IERC20, Ownable {
      * no way affects any of the arithmetic of the contract, including
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
-    function decimals() public view returns (uint8) {
+    function decimals() public view virtual returns (uint8) {
         return _decimals;
     }
 
     /**
      * @dev See {IERC20-totalSupply}.
      */
-    function totalSupply() public view override returns (uint256) {
+    function totalSupply() public view virtual override returns (uint256) {
         return _totalSupply;
     }
 
     /**
      * @dev See {IERC20-balanceOf}.
      */
-    function balanceOf(address account) public view override returns (uint256) {
+    function balanceOf(address account) public view virtual override returns (uint256) {
         return _balances[account];
     }
 
@@ -286,7 +284,7 @@ contract ERC20 is Context, IERC20, Ownable {
      * applications that interact with token contracts will not expect
      * {decimals} to ever change, and may work incorrectly if it does.
      */
-    function _setupDecimals(uint8 decimals_) internal {
+    function _setupDecimals(uint8 decimals_) internal virtual {
         _decimals = decimals_;
     }
 
